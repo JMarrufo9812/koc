@@ -25,7 +25,7 @@
         class="flex align-center justify-center relative" 
         style="right: 20px; height: 40px; pointer-events: none;"
       >
-        <slot name="prepend" @click.stop />
+        <slot name="prepend" />
       </div>
     </div>
     <p v-if="!isValid" class="color-red font18 py-10">

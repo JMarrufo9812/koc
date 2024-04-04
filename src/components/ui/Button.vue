@@ -17,7 +17,7 @@ import { computed } from "vue";
 const props = defineProps({
   text: {
     type: String,
-    required: true
+    required: false
   },
   color: {
     type: String,

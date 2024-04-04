@@ -60,8 +60,11 @@
           <div class="pb-10">
             <span class="font1-5em text-bold">Registro de ingresos</span>
           </div>
-          <div>
-            <div>
+          <div class="flex flex-wrap">
+            <div class="flex align-center my-10">
+              <span class="font1-5em pr-5">
+                Fecha inicio
+              </span>
               <FieldDate :showPrepend="true">
                 <template #prepend>
                   <ArrowLeft
@@ -70,8 +73,33 @@
                 </template>
               </FieldDate>
             </div>
-            <div></div>
-            <div></div>
+            <div class="flex align-center my-10">
+              <span class="font1-5em pr-5">
+                Fecha fin
+              </span>
+              <FieldDate :showPrepend="true">
+                <template #prepend>
+                  <ArrowLeft
+                    style="font-size: 23px;"
+                  ></ArrowLeft>
+                </template>
+              </FieldDate>
+            </div>
+            <div class="flex my-10">
+              <Button :text="'Descargar'">
+              </Button>
+            </div>
+          </div>
+        </div>
+        <div class="background-light p-10 mt-10">
+          <div class="flex pb-10">
+            <span class="font1-5em text-bold">Carga de foto de piloto</span>
+          </div>
+          <div class="flex">
+            <span class="font1-5em">
+              Recuerda renombrar la imagen para que contenga únicamente el numero de
+              derecho y su extensión. Ej: 10005.jpg
+            </span>
           </div>
         </div>
       </div>
