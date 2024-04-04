@@ -5,7 +5,7 @@ $error: #E74C3C;
 $white: #ffffff;
 $gray: #95A5A6;
 $light: #F2F5F8;
-
+$blue: #2780BA;
 
 :root {
   --primary: #{$primary};
@@ -15,4 +15,5 @@ $light: #F2F5F8;
   --white: #{$white};
   --gray: #{$gray};
   --light: #{$light};
+  --blue: #{$blue};
 }

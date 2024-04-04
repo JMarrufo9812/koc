@@ -92,14 +92,28 @@
           </div>
         </div>
         <div class="background-light p-10 mt-10">
-          <div class="flex pb-10">
-            <span class="font1-5em text-bold">Carga de foto de piloto</span>
-          </div>
-          <div class="flex">
-            <span class="font1-5em">
+          <div class="flex flex-col">
+            <span class="font1-5em text-bold pb-10 max-width-600">
+              Carga de foto de piloto
+            </span>
+            <span class="font1-5em max-width-600">
               Recuerda renombrar la imagen para que contenga únicamente el numero de
               derecho y su extensión. Ej: 10005.jpg
             </span>
+          </div>
+          <div class="my-10">
+            <Button :text="'Agregar imagenes'">
+            </Button>
+          </div>
+          <div class="flex flex-wrap">
+            <div class="p-10 flex-grow-1">
+              <Button :text="'Subir todo'" :color="'blue'">
+              </Button>
+            </div>
+            <div class="p-10 flex-grow-1">
+              <Button :text="'Borrar todo'" :color="'error'">
+              </Button>
+            </div>
           </div>
         </div>
       </div>
