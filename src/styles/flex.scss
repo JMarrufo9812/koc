@@ -1,0 +1,30 @@
+.flex {
+  display: flex;
+}
+
+.flex-nowrap {
+	flex-wrap: nowrap;
+}
+
+.flex-wrap {
+	flex-wrap: wrap;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.align-center {
+  align-items: center;
+}
+
+// Grow
+@mixin flex-grow($value) {
+	flex-grow: $value;
+}
+  
+@for $i from 1 through 5 {
+	.flex-grow-#{$i} {
+	  @include flex-grow($i);
+	}
+}

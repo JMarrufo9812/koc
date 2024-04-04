@@ -1,0 +1,44 @@
+// size
+.font1em {
+	font-size: 1em;
+}
+.font1-5em {
+	font-size: 1.5em;
+}
+.font2em {
+	font-size: 2em;
+}
+.font3em {
+	font-size: 3em;
+}
+.font4em {
+	font-size: 4em;
+}
+
+.text-underline {
+	text-decoration: underline;
+}
+
+.text-uppercase {
+	text-transform: uppercase;
+}
+
+$color-names: "primary", "success", "error", "white", "gray", "primary-light";
+
+@each $color in $color-names {
+  .text-#{$color} {
+    color: var(--#{$color});
+  }
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-pointer {
+	cursor: pointer;
+}

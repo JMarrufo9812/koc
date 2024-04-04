@@ -1,0 +1,18 @@
+$primary: #052B53;
+$primary-light: #034180;
+$success: #18A08A;
+$error: #E74C3C;
+$white: #ffffff;
+$gray: #95A5A6;
+$light: #F2F5F8;
+
+
+:root {
+  --primary: #{$primary};
+  --primary-light: #{$primary-light};
+  --success: #{$success};
+  --error: #{$error};
+  --white: #{$white};
+  --gray: #{$gray};
+  --light: #{$light};
+}

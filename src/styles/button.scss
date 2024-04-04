@@ -1,0 +1,14 @@
+.my-btn {
+	padding: 0.8em 1.2em;
+	outline: 0;
+	border: 1px solid #fff;
+	outline: 0;
+	cursor: pointer;
+	// font-size: 0.95em;
+	transition: 0.3s;
+	box-shadow: 0 0 18px #aaa !important;
+	&:active {
+    box-shadow: 0 0 0 transparent;
+		transform: scale(0.95, 0.95);
+	}
+}
