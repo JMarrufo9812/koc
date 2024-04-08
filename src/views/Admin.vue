@@ -118,6 +118,7 @@
         </div>
       </div>
       <div class="background-light flex-grow-1 m-10 min-width-50 min-height-500">
+        <BaseTable :headers="headers" :items="testData"/>
       </div>
     </div>
   </div>
@@ -130,6 +131,70 @@ import FieldDate from "@/components/ui/fields/FieldDate.vue";
 import Excel from "@/assets/icons/Excel.vue";
 import MicrosoftExcel from "@/assets/icons/MicrosoftExcel.vue";
 import ArrowLeft from "@/assets/icons/ArrowLeft.vue"
+import BaseTable from "@/components/ui/BaseTable.vue"
+
+import { ref } from 'vue'
+
+const headers = ref([
+  {
+    text: 'No. Derecho',
+    value: 'law'
+  },
+  {
+    text: 'Piloto',
+    value: 'pilot'
+  },
+  {
+    text: 'Pit',
+    value: 'pit'
+  },
+  {
+    text: 'Status',
+    value: 'status'
+  },
+  {
+    text: 'Nivel',
+    value: 'level'
+  }
+])
+
+const testData = ref([
+  {
+    law: 192348199,
+    pilot: "Juan García",
+    pit: 123,
+    status: "vigente",
+    level: "experto"
+  },
+  {
+    law: 289375849,
+    pilot: "María Fernández",
+    pit: 456,
+    status: "renovado",
+    level: "novato"
+  },
+  {
+    law: 384756938,
+    pilot: "José González",
+    pit: 789,
+    status: "vigente",
+    level: "academia"
+  },
+  {
+    law: 482938475,
+    pilot: "Ana Rodríguez",
+    pit: 1011,
+    status: "renovado",
+    level: "experto"
+  },
+  {
+    law: 583746281,
+    pilot: "Luis López",
+    pit: 1213,
+    status: "vigente",
+    level: "novato"
+  }
+])
 </script>
 
 <style scoped>

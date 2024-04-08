@@ -1,12 +1,12 @@
 .my-btn {
 	padding: 0.8em 1.2em;
 	outline: 0;
-	border: 1px solid #fff;
+	border: 1px solid #FFFFFF;
 	outline: 0;
 	cursor: pointer;
-	// font-size: 0.95em;
+	font-size: 0.95em;
 	transition: 0.3s;
-	box-shadow: 0 0 18px #aaa !important;
+	box-shadow: 0 0 5px #aaa !important;
 	&:active {
     box-shadow: 0 0 0 transparent;
 		transform: scale(0.95, 0.95);

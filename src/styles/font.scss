@@ -23,7 +23,7 @@
 	text-transform: uppercase;
 }
 
-$color-names: "primary", "success", "error", "white", "gray", "primary-light";
+$color-names: "light", "primary", "success", "error", "white", "gray", "primary-light";
 
 @each $color in $color-names {
   .text-#{$color} {
