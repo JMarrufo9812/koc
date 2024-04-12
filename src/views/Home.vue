@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!appStore.loading" class="flex justify-center background-primary">
+    <div v-if="!appStore.loading" class="flex justify-center background-error">
       <div class="container">
         <template v-if="view === 'SCAN'">
           <p class="font2em text-uppercase my-20 text-primary text-bold text-center">
@@ -14,21 +14,7 @@
           <CodeScanner @result="handlerScan"/>
         </template>
         <template v-if="view === 'SUCCESS'">
-          <div style="height: 100vh;">
-            <div class="flex justify-between font1-5em text-light">
-              <span>
-                Derecho: 0005415651565
-              </span>
-              <span>
-                Pit: 5
-              </span>
-            </div>
-            <div>
-              <span class="font1-5em text-light">
-                Juan manuel nombre del piloto
-              </span>
-            </div>
-          </div>
+          <Result />
         </template>
       </div>
     </div>
@@ -41,6 +27,7 @@ import Button from "@/components/ui/Button.vue";
 import CodeScanner from "@/components/ui/CodeScanner.vue";
 import FieldText from "@/components/ui/fields/FieldText.vue";
 import Loading from "@/components/ui/Loading.vue";
+import Result from "@/components/app/Result.vue";
 
 import  { useAppStore } from '@/store/app'
 
@@ -67,7 +54,7 @@ function searchHandler () {
 </script>
 
 <style>
-.background-primary {
+.background-error {
   background: var(--error);
 }
 </style>
