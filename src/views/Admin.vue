@@ -115,6 +115,9 @@
               </Button>
             </div>
           </div>
+          <div>
+            <FileUpload />
+          </div>
         </div>
       </div>
       <div class="background-light flex-grow-1 m-10 min-width-50 min-height-500">
@@ -132,6 +135,7 @@ import Excel from "@/assets/icons/Excel.vue";
 import MicrosoftExcel from "@/assets/icons/MicrosoftExcel.vue";
 import ArrowLeft from "@/assets/icons/ArrowLeft.vue"
 import BaseTable from "@/components/ui/BaseTable.vue"
+import FileUpload from "@/components/ui/fields/FileUpload.vue"
 
 import { ref } from 'vue'
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!appStore.loading" class="flex justify-center background-error">
+    <div v-if="!appStore.loading" class="flex justify-center">
       <div class="container">
         <template v-if="view === 'SCAN'">
           <p class="font2em text-uppercase my-20 text-primary text-bold text-center">
@@ -8,7 +8,7 @@
           </p>
           <FieldText @input="search = $event" :value="search" class="my-10"/>
           <Button :text="'Buscar'" @click="searchHandler" />
-          <p class="font2em text-uppercase my-20 text-gray text-center">
+          <p class="font2em my-20 text-gray text-center">
             Enfoca la camara hacia el objetivo
           </p>
           <CodeScanner @result="handlerScan"/>
@@ -35,7 +35,7 @@ import { ref } from "vue";
 
 const appStore = useAppStore()
 
-const view = ref('SUCCESS')
+const view = ref('SCAN')
 
 const search = ref("");
 
