@@ -1,10 +1,27 @@
 <template>
   <header class="background-navbar">
     <div class="flex justify-center pb-10">
-      <img src="@/assets/koc_logo.png" alt="">
+      <img @click="handlerHome" src="@/assets/koc_logo.png" alt="">
     </div>
   </header>
 </template>
+
+<script setup>
+import { useRoute, useRouter } from 'vue-router';
+
+const route = useRoute();
+const router = useRouter();
+
+function handlerHome() {
+  console.log('handlerHome', route.name)
+  if(route.name === 'home') {
+    window.location.reload();
+  } else {
+    router.push({ path: '/' })
+  }
+}
+
+</script>
 
 <style lang="scss">
 

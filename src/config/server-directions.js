@@ -1,0 +1,7 @@
+import config from '@/config'
+
+const BASE_URL = `${config.API_BASE}/api/v1`
+
+export default {
+  PILOT_CHECK_IN: `${BASE_URL}/check-in`
+}

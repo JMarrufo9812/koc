@@ -13,12 +13,12 @@
           </p>
           <CodeScanner @result="handlerScan"/>
         </template>
-        <template v-if="view === 'SUCCESS'">
-          <Result />
-        </template>
       </div>
     </div>
-    <Loading v-else />
+    <template v-if="!appStore.loading && view === 'RESULT'">
+      <Result :info="resultInfo" />
+    </template>
+    <Loading v-if="appStore.loading" />
   </div>
 </template>
 
@@ -28,10 +28,11 @@ import CodeScanner from "@/components/ui/CodeScanner.vue";
 import FieldText from "@/components/ui/fields/FieldText.vue";
 import Loading from "@/components/ui/Loading.vue";
 import Result from "@/components/app/Result.vue";
-
 import  { useAppStore } from '@/store/app'
-
 import { ref } from "vue";
+import { GeneralRequests } from "@/services/general.services";
+
+const GeneralServices = new GeneralRequests()
 
 const appStore = useAppStore()
 
@@ -43,12 +44,34 @@ function handlerScan(value) {
   search.value = value
 }
 
-function searchHandler () {
+const resultInfo = ref({})
+
+async function searchHandler () {
   console.log(search.value)
   appStore.handleLoading(true)
-  setTimeout(()=> {
-    appStore.handleLoading(false)
-  }, 1000)
+
+   GeneralServices.pilotCheckIn({ code: search.value })
+    .then((res) => {
+     console.log(res)
+     resultInfo.value = {
+        type: 'SUCCESS',
+        code: search.value,
+        msg: res.data
+      }
+    }).catch((err) => {
+      view.value = 'RESULT'
+
+      resultInfo.value = {
+        type: 'ERROR',
+        code: search.value,
+        msg: err.response.data.message
+      }
+    }).finally(() => {
+      appStore.handleLoading(false)
+    })
+
+  // view.value = 'RESPONSE'
+
 }
 
 </script>
