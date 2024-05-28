@@ -121,7 +121,7 @@
         </div>
       </div>
       <div class="background-light flex-grow-1 m-10 min-width-50 min-height-500">
-        <BaseTable :headers="headers" :items="testData"/>
+        <BaseTable :headers="headers" :items="listPilots"/>
       </div>
     </div>
   </div>
@@ -137,20 +137,25 @@ import ArrowLeft from "@/assets/icons/ArrowLeft.vue"
 import BaseTable from "@/components/ui/BaseTable.vue"
 import FileUpload from "@/components/ui/fields/FileUpload.vue"
 
+import { GeneralRequests } from "@/services/general.services";
+import { onMounted, onBeforeUnmount } from 'vue';
+
+const GeneralServices = new GeneralRequests()
+
 import { ref } from 'vue'
 
 const headers = ref([
   {
     text: 'No. Derecho',
-    value: 'law'
+    value: 'code'
   },
   {
     text: 'Piloto',
-    value: 'pilot'
+    value: 'name'
   },
   {
     text: 'Pit',
-    value: 'pit'
+    value: 'place'
   },
   {
     text: 'Status',
@@ -162,43 +167,20 @@ const headers = ref([
   }
 ])
 
-const testData = ref([
-  {
-    law: 192348199,
-    pilot: "Juan García",
-    pit: 123,
-    status: "vigente",
-    level: "experto"
-  },
-  {
-    law: 289375849,
-    pilot: "María Fernández",
-    pit: 456,
-    status: "renovado",
-    level: "novato"
-  },
-  {
-    law: 384756938,
-    pilot: "José González",
-    pit: 789,
-    status: "vigente",
-    level: "academia"
-  },
-  {
-    law: 482938475,
-    pilot: "Ana Rodríguez",
-    pit: 1011,
-    status: "renovado",
-    level: "experto"
-  },
-  {
-    law: 583746281,
-    pilot: "Luis López",
-    pit: 1213,
-    status: "vigente",
-    level: "novato"
-  }
-])
+const listPilots = ref([])
+
+async function loadPilots() {
+  GeneralServices.getPilots()
+    .then((data) => {
+      listPilots.value = data.data
+    })
+    .catch(() => {})
+}
+
+onMounted(async () => {
+  await loadPilots()
+})
+
 </script>
 
 <style scoped>

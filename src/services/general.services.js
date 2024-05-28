@@ -14,4 +14,14 @@ export class GeneralRequests {
 
       return requestService.makePromise(route, method, { params }, map)
     }
+    getPilots() {
+      const route = ServerDirections.PILOTS
+      const method = 'get'
+
+      function map (res) {
+        return res
+      }
+
+      return requestService.makePromise(route, method, {}, map)
+    }
 }

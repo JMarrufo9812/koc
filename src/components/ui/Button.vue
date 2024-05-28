@@ -30,6 +30,9 @@ const props = defineProps({
 })
 
 const getColor = computed(() => {
+  if (props.disabled) {
+    return `background: var(--gray)`  
+  }
   return `background: var(--${props.color})`
 });
 </script>

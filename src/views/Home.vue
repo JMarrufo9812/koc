@@ -6,8 +6,16 @@
           <p class="font2em text-uppercase my-20 text-primary text-bold text-center">
             Escaneo de derecho
           </p>
-          <FieldText @input="search = $event" :value="search" class="my-10"/>
-          <Button :text="'Buscar'" @click="searchHandler" />
+          <FieldText 
+            @input="search = $event" 
+            :value="search" 
+            class="my-10"
+          />
+          <Button 
+            :text="'Buscar'" 
+            @click="!search ? '' : searchHandler()" 
+            :disabled="!search"
+          />
           <p class="font2em my-20 text-gray text-center">
             Enfoca la camara hacia el objetivo
           </p>
@@ -40,44 +48,32 @@ const view = ref('SCAN')
 
 const search = ref("");
 
-function handlerScan(value) {
-  search.value = value
-}
-
 const resultInfo = ref({})
 
+function handlerScan(value) {
+  search.value = value
+  searchHandler()
+}
+
 async function searchHandler () {
-  console.log(search.value)
   appStore.handleLoading(true)
 
    GeneralServices.pilotCheckIn({ code: search.value })
     .then((res) => {
-     console.log(res)
      resultInfo.value = {
         type: 'SUCCESS',
         code: search.value,
-        msg: res.data
+        data: res.data
       }
     }).catch((err) => {
-      view.value = 'RESULT'
-
       resultInfo.value = {
         type: 'ERROR',
         code: search.value,
-        msg: err.response.data.message
+        data: err.response.data
       }
     }).finally(() => {
+      view.value = 'RESULT'
       appStore.handleLoading(false)
     })
-
-  // view.value = 'RESPONSE'
-
 }
-
 </script>
-
-<style>
-.background-error {
-  background: var(--error);
-}
-</style>
