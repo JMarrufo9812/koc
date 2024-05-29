@@ -4,16 +4,19 @@
       <h3>Suelta aqui los archivos para subir</h3>
     </div>
     <file-upload
+      v-model="files"
       :post-action="postAction"
       :accept="accept"
       :multiple="true"
       :size="size || 0"
       :drop="true"
       :drop-directory="true"
-      v-model="files"
+      :data="data"
+      :extensions="extensions"
       ref="upload"
       style="width: 100%; height: 20vh"
       class="back-white"
+      @input-filter="inputFilter"
     >
       <div class="flex align-center justify-center" style="height: 100%">
         <div>
@@ -30,17 +33,17 @@
       >
         <article class="padding10">
           <div class="flex margin-bottom10 width100">
-            <figure class="margin-right10">
+            <figure class="mr-10">
               <img
                 v-if="file.thumb"
                 :src="file.thumb"
                 class="width100"
-                height="auto"
+                height="100"
               />
               <span v-else>No Imagen</span>
             </figure>
-            <div class="width-100">
-              <p class="font1-3em margin-bottom10">
+            <div class="width100">
+              <p class="font1-5em">
                 {{ file.name }}
               </p>
               <div
@@ -56,11 +59,12 @@
                   "
                 >
                   <div
-                    class="flex back-red flex-right align-center"
+                    class="flex back-error flex-right align-center"
                     :style="{ width: file.progress + '%' }"
-                    :class=" {
-                      'back-yellow-percent': file.progress > 60 && file.progress < 81,
-                      'back-green-percent': file.progress == 100,
+                    :class="{
+                      'back-warning':
+                        file.progress > 60 && file.progress < 81,
+                      'back-success': file.progress == 100,
                     }"
                     style="
                       height: 25px;
@@ -70,71 +74,80 @@
                   ></div>
                 </div>
                 <p
-                  class="color-darkblue font-bold relative"
+                  class="text-blue text-bold relative"
                   style="top: -3px; right: -9px"
                 >
                   {{ file.progress }}%
                 </p>
               </div>
-              <p class="font1em color-darkblue margin-bottom10">
-                size: {{ file.size / 1000 }} Kb.
-              </p>
+              <p class="font1-5em">Tamaño: {{ file.size / 1000 }} Kb.</p>
             </div>
           </div>
           <div class="flex align-center" v-if="!file.success">
-            <button
-              class="my-btn widthHalf back-blue margin-right10"
+            <Button
               v-if="file.active"
+              class="widht100"
               @click.prevent="$refs.upload.update(file, { active: false })"
+              :color="'error'"
             >
-              <h2 class="font1-3em color-white">
-                Cancelar
-              </h2>
-            </button>
+              <template #button-content>
+                <h2 class="font1-5em text-white margin-y-none">Cancelar</h2>
+              </template>
+            </Button>
 
-            <button
+            <Button
               v-else-if="
                 file.error &&
                 file.error !== 'compressing' &&
                 $refs.upload.features.html5
               "
-              class="my-btn widthHalf back-blue margin-right10"
+              class="widht100"
               @click.prevent="onRetry(file)"
+              :color="'blue'"
             >
-              <h2 class="font1-3em color-white">
-                <span class="ion-upload"></span>
-                Volver a intentar
-              </h2>
-            </button>
+              <template #button-content>
+                <h2 class="font1-5em text-white margin-y-none">
+                  <span class="ion-upload"></span>
+                  Volver a intentar
+                </h2>
+              </template>
+            </Button>
 
-            <button
+            <Button
               v-else
-              class="my-btn widthHalf back-blue margin-right10"
+              class="widht100"
               @click.prevent="
                 file.success || file.error === 'compressing'
                   ? false
                   : $refs.upload.update(file, { active: true })
               "
+              :color="'blue'"
             >
-              <h2 class="font1-3em color-white">
-                <span class="ion-upload"></span>
-                Subir
-              </h2>
-            </button>
+              <template #button-content>
+                <h2 class="font1-5em text-white margin-y-none">
+                  <span class="ion-upload"></span>
+                  Subir
+                </h2>
+              </template>
+            </Button>
 
-            <button
-              class="my-btn widthHalf back-yellow"
+            <Button
+              class="widht100"
+              :color="'warning'"
               @click.prevent="$refs.upload.remove(file)"
             >
-              <h2 class="font1-3em color-white">
-                <span class="ion-close"></span>Quitar
-              </h2>
-            </button>
+              <template #button-content>
+                <h2 class="font1-5em text-white margin-y-none">
+                  <span class="ion-close"></span>
+                  Quitar
+                </h2>
+              </template>
+            </Button>
           </div>
 
           <div v-else class="back-green padding15 align-center justify-center">
             <p class="font1-5em color-white">
-              charge_massive_images.uploaded_image
+              Imagen cargada
               <span
                 class="font1em ion-checkmark-circled relative"
                 style="top: 2px"
@@ -149,27 +162,44 @@
         </div>
       </div>
     </section>
-    <!-- @input-filter="inputFilter"
-    @input-file="inputFile" -->
+    <!--  @input-file="inputFile" -->
   </div>
 </template>
 
 <script setup>
 import FileUpload from "vue-upload-component";
 import AddImage from "@/assets/icons/AddImage.vue";
+import Button from "@/components/ui/Button.vue";
+
+import ServerDirections from '@/config/server-directions'
 
 import { ref } from "vue";
 
-const postAction = `apiUrl/admin/product-massive-images`;
+const postAction = ServerDirections.PILOTS_STORAGE_IMAGES;
 const extensions = "jpg,jpeg,png";
 const accept = "image/png,image/jpg,image/jpeg";
 const size = 1024 * 1024 * 5;
-const thread = 3;
-const headersImg = {
-  Authorization: "Bearer " + localStorage.tokenOAGV,
-  "X-Requested-With": "XMLHttpRequest",
-  // 'Accept': 'application/json',
-  // 'Content-Type': 'multipart/form-data'
-};
+
 const files = ref([]);
+
+const data = {
+  user_name: "usertest",
+	password: "123456",
+}
+
+function inputFilter(newFile, oldFile, prevent) {
+  if(newFile) {
+    newFile.blob = "";
+    let URL = window.URL || window.webkitURL;
+    if (URL && URL.createObjectURL) {
+      newFile.blob = URL.createObjectURL(newFile.file);
+    }
+  
+    // Thumbnails
+    newFile.thumb = "";
+    if (newFile.blob && newFile.type.substr(0, 6) === "image/") {
+      newFile.thumb = newFile.blob;
+    }
+  }
+}
 </script>

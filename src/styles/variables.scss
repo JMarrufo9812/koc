@@ -6,6 +6,7 @@ $white: #ffffff;
 $gray: #95A5A6;
 $light: #F2F5F8;
 $blue: #2780BA;
+$warning: #f49d1e;
 
 :root {
   --primary: #{$primary};
@@ -16,4 +17,5 @@ $blue: #2780BA;
   --gray: #{$gray};
   --light: #{$light};
   --blue: #{$blue};
+  --warning: #{$warning};
 }
