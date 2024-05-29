@@ -21,5 +21,11 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  }
+  },
+  build: {
+    outDir: 'build',
+    manifest: true,
+    target: 'es2020'
+    // minify: false,
+  },
 })
