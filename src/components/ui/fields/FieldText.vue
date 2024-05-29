@@ -41,7 +41,7 @@ import { computed } from "vue";
 const emit = defineEmits(["input"]);
 
 const props = defineProps({
-  value: {
+  modelValue: {
     type: String,
     default: "",
   },
@@ -85,11 +85,11 @@ const props = defineProps({
 
 const model = computed({
   get() {
-    return props.value;
+    return props.modelValue;
   },
   set(value) {
-    emit("input", value);
-  },
+    emit('update:modelValue', value);
+  }
 });
 
 const styles = computed(() => {

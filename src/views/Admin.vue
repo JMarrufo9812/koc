@@ -10,7 +10,7 @@
             <span class="font1-5em text-bold">Usuario:</span>
           </div>
           <div class="min-width-50">
-            <FieldText />
+            <FieldText v-model="credentials.user_name" />
           </div>
         </div>
         <div class="background-light p-10 mt-10 flex align-center">
@@ -18,7 +18,7 @@
             <span class="font1-5em text-bold">Contraseña:</span>
           </div>
           <div class="min-width-50">
-            <FieldText />
+            <FieldText v-model="credentials.password" />
           </div>
         </div>
         <div class="background-light p-10 mt-10 flex align-center">
@@ -38,6 +38,7 @@
           <div class="min-width-35 flex align-center justify-center">
             <MicrosoftExcel :h="25" :w="25" />
             <span
+              @click="downloadTemplate"
               class="font1-5em text-bold text-primary-light pl-5 text-underline text-pointer"
             >
               Descargar plantilla
@@ -67,7 +68,7 @@
           <div class="flex flex-wrap">
             <div class="flex align-center my-10">
               <span class="font1-5em pr-5"> Fecha inicio </span>
-              <FieldDate :showPrepend="true">
+              <FieldDate v-model="period.date_ini" :showPrepend="true" :name="'date_ini'">
                 <template #prepend>
                   <ArrowLeft style="font-size: 23px"></ArrowLeft>
                 </template>
@@ -75,7 +76,7 @@
             </div>
             <div class="flex align-center my-10">
               <span class="font1-5em pr-5"> Fecha fin </span>
-              <FieldDate :showPrepend="true">
+              <FieldDate v-model="period.date_end" :showPrepend="true" :name="'date_end'">
                 <template #prepend>
                   <ArrowLeft style="font-size: 23px"></ArrowLeft>
                 </template>
@@ -131,6 +132,8 @@
 </template>
 
 <script setup>
+import { ref, onMounted, onBeforeUnmount } from "vue";
+
 import Button from "@/components/ui/Button.vue";
 import FieldText from "@/components/ui/fields/FieldText.vue";
 import FieldDate from "@/components/ui/fields/FieldDate.vue";
@@ -140,12 +143,12 @@ import ArrowLeft from "@/assets/icons/ArrowLeft.vue";
 import BaseTable from "@/components/ui/BaseTable.vue";
 import FileUpload from "@/components/ui/fields/FileUpload.vue";
 
+import { downloadDocument } from "@/utils"
+
 import { GeneralRequests } from "@/services/general.services";
-import { onMounted, onBeforeUnmount } from "vue";
 
 const GeneralServices = new GeneralRequests();
 
-import { ref } from "vue";
 
 const headers = ref([
   {
@@ -170,12 +173,45 @@ const headers = ref([
   },
 ]);
 
+const credentials = ref({
+  user_name: "usertest",
+	password: "123456",
+})
+
 const listPilots = ref([]);
 
 async function loadPilots() {
   GeneralServices.getPilots()
     .then((data) => {
       listPilots.value = data.data;
+    })
+    .catch(() => {});
+}
+
+function downloadTemplate () {
+  GeneralServices.downloadPilotsTemplate(credentials.value)
+    .then((data) => {
+      downloadDocument(data.data.data.download_url)
+      console.log(data)
+    })
+    .catch(() => {});
+}
+
+const period = ref({
+  date_ini: '',
+  date_end: ''
+})
+
+function downloadCheckInReport () {
+  const params = {
+    credentials: credentails.value,
+    period: period.value
+  }
+
+  GeneralServices.downloadChekInReport(params)
+    .then((data) => {
+      // downloadDocument(data.data.data.donwload_url)
+      console.log(data)
     })
     .catch(() => {});
 }

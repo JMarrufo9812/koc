@@ -24,4 +24,27 @@ export class GeneralRequests {
 
       return requestService.makePromise(route, method, {}, map)
     }
+    downloadPilotsTemplate (params) {
+      const route = ServerDirections.PILOTS_TEMPLATE
+      const method = 'get'
+
+      function map (res) {
+        return res
+      }
+
+      return requestService.makePromise(route, method, { params }, map)
+    }
+    downloadChekInReport (params) {
+      const route = `${ServerDirections.PILOTS_CHECK_IN_EXPORT
+        .replace('{DATE_INI}', params.period.date_ini)
+        .replace('{DATE_END}', params.period.date_end)
+      }`
+      const method = 'get'
+
+      function map (res) {
+        return res
+      }
+
+      return requestService.makePromise(route, method, { params: params.credentials }, map)
+    }
 }

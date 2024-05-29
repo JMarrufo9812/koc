@@ -12,13 +12,13 @@
         <slot name="append" />
       </div>
       <datepicker
-        :value="model"
-        @selected="model = $event"
+        v-model="model"
         :class="[{ 'mt-5': label }, { 'border-red': !isValid}]"
         :placeholder="placeholder"
-        :use-utc="true"
-        style="font-size: 1.1em;"
+        style="font-size: 1.5em;"
         :locale="es"
+        :name="name"
+        ref="datepicker"
       ></datepicker>
       <div
         v-if="showPrepend" 
@@ -35,15 +35,16 @@
 </template>
 
 <script setup>
+import { ref, watch, nextTick } from "vue";
 import Datepicker from 'vue3-datepicker'
 import { es } from 'date-fns/locale'
 import { computed } from "vue";
 
-const emit = defineEmits(["input"]);
+const emit = defineEmits(["update:modelValue"]);
 
 const props = defineProps({
-    value: {
-      default: ''
+    modelValue: {
+      default: "",
     },
     placeholder: {
       type: String,
@@ -81,16 +82,28 @@ const props = defineProps({
       type: Boolean,
       default: false
     }
+});
+
+// const datepicker = ref(null);  
+
+const model = computed({
+  get() {
+    return props.modelValue || null;
+  },
+  set(value) {
+    emit('update:modelValue', value);
+  }
+});
+
+watch(() => props.modelValue, () => {
+  nextTick(() => {
+    const input = document.querySelector(`input[name="${props.name}"]`);
+    console.log(input)
+    if (input) {
+      input.blur();
+    }
   });
-  
-  const model = computed({
-    get() {
-      return props.value;
-    },
-    set(value) {
-      emit("input", value);
-    },
-  });
+});
 
 </script>
 
@@ -99,5 +112,6 @@ const props = defineProps({
   border: 2px solid $gray !important;
   cursor: pointer;
   height: 40px;
+  padding-left: 10px;
 }
 </style>
