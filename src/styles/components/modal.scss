@@ -15,11 +15,10 @@
   display: table-cell;
   vertical-align: middle;
   max-width: 100%;
-  margin: 0px auto;
+
 }
 
 .modal-container {
-	width: 90%;
 	margin: 0px auto;
 	padding: 20px;
 	position: relative;
@@ -34,4 +33,22 @@
   max-height: 80vh;
   overflow: auto;
   background: white;
+}
+
+/* más grandes que 768px */
+@media (min-width: 769px) {
+  .modal-container {
+    width: 50%;
+    max-width: 400px;
+    height: auto;
+  }
+}
+
+/* más grandes que 1024px */
+@media (min-width: 1025px) {
+  .modal-container {
+    width: 30%;
+    max-width: 600px;
+    height: auto;
+  }
 }

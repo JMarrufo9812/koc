@@ -132,6 +132,10 @@ import ArrowLeft from "@/assets/icons/ArrowLeft.vue";
 import BaseTable from "@/components/ui/BaseTable.vue";
 import FileUpload from "@/components/ui/fields/FileUpload.vue";
 
+import  { useAppStore } from '@/store/app'
+
+const appStore = useAppStore()
+
 import { downloadDocument, convertDateFormat } from "@/utils"
 
 import { GeneralRequests } from "@/services/general.services";
@@ -210,7 +214,10 @@ async function downloadCheckInReport () {
     .then((data) => {
       downloadDocument(data.data.data.download_url)
     })
-    .catch(() => {});
+    .catch((error) => {
+      console.log(error.response)
+      appStore.handleModalError({ show: true })
+    });
 }
 
 
@@ -233,7 +240,6 @@ async function uploadListPilots(event) {
 
   GeneralServices.pilotsImport(formData)
     .then((data) => {
-      console.log(data)
       loadPilots();
     })
     .catch(() => {});
