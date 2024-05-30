@@ -27,7 +27,7 @@
     </file-upload>
     <section class="upload">
       <div
-        class="back-white margin-bottom15"
+        class="back-white my-10"
         v-for="file in files"
         :key="file.id"
       >
@@ -102,7 +102,7 @@
                 $refs.upload.features.html5
               "
               class="widht100"
-              @click.prevent="onRetry(file)"
+              @click.prevent="$refs.upload.update(file, {active:true, error:'', progress:'0.00'})"
               :color="'blue'"
             >
               <template #button-content>
@@ -145,20 +145,22 @@
             </Button>
           </div>
 
-          <div v-else class="back-green padding15 align-center justify-center">
-            <p class="font1-5em color-white">
+          <div v-else class="back-success p-10 align-center justify-center">
+            <span class="font1-5em text-white">
               Imagen cargada
               <span
                 class="font1em ion-checkmark-circled relative"
                 style="top: 2px"
               ></span>
-            </p>
+            </span>
           </div>
         </article>
 
-        <div class="back-red padding10" v-if="file.error">
-          <h3 class="color-white font1-5em">Error:</h3>
-          <p v-html="file.error" class="color-white font1em"></p>
+        <div v-if="file.error" class="flex text-white back-error p-10 padding10">
+          <span class="font1-5em pr-5">
+            Error:
+          </span>
+          <div v-html="file.error" class="color-white font1-5em"></div>
         </div>
       </div>
     </section>
