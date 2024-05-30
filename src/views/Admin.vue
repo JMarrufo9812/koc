@@ -26,12 +26,21 @@
             <span class="font1-5em text-bold">Carga de derechos</span>
           </div>
           <div class="min-width-35">
+		        <input 
+							id="inputFile"
+							type="file" 
+							accept=".xlsx, .xls, .csv"
+							@change="uploadListPilots($event)" 
+							style="visibility: hidden;"
+						> 
             <Button>
               <template #button-content>
-                <div class="flex align-center justify-center">
-                  <Excel :h="25" :w="25" :color="'#ffff'" />
-                  <span class="font1-5em text-white pl-5">Cargar excel</span>
-                </div>
+                <label for="inputFile">
+                  <div class="flex align-center justify-center">
+                    <Excel :h="25" :w="25" :color="'#ffff'" />
+                    <span class="font1-5em text-white pl-5">Cargar excel</span>
+                  </div>
+                </label>
               </template>
             </Button>
           </div>
@@ -50,12 +59,12 @@
             <span class="font1-5em text-bold">Derechos</span>
           </div>
           <div class="">
-            <Button :color="'primary'">
+            <Button @click="downloadPilotsList" :color="'primary'">
               <template #button-content>
                 <div class="flex align-center justify-center">
-                  <span class="font1-5em text-white pl-5"
-                    >Consultar derechos</span
-                  >
+                  <span class="font1-5em text-white pl-5">
+                    Consultar derechos
+                  </span>
                 </div>
               </template>
             </Button>
@@ -83,7 +92,7 @@
               </FieldDate>
             </div>
             <div class="flex my-10">
-              <Button :text="'Descargar'"> </Button>
+              <Button @click="downloadCheckInReport" :text="'Descargar'" />
             </div>
           </div>
         </div>
@@ -98,9 +107,9 @@
             </span>
           </div>
           <div class="my-10">
-            <Button :for="name">
+            <Button>
               <template #button-content>
-                <label :for="name" >
+                <label for="file">
                   <h2 class="font1-5em text-white margin-y-none">
                     <span class="ion-plus"></span>
                     Agregar imagenes
@@ -143,7 +152,7 @@ import ArrowLeft from "@/assets/icons/ArrowLeft.vue";
 import BaseTable from "@/components/ui/BaseTable.vue";
 import FileUpload from "@/components/ui/fields/FileUpload.vue";
 
-import { downloadDocument } from "@/utils"
+import { downloadDocument, convertDateFormat } from "@/utils"
 
 import { GeneralRequests } from "@/services/general.services";
 
@@ -173,10 +182,12 @@ const headers = ref([
   },
 ]);
 
+
 const credentials = ref({
   user_name: "usertest",
 	password: "123456",
 })
+
 
 const listPilots = ref([]);
 
@@ -188,7 +199,8 @@ async function loadPilots() {
     .catch(() => {});
 }
 
-function downloadTemplate () {
+
+async function downloadTemplate () {
   GeneralServices.downloadPilotsTemplate(credentials.value)
     .then((data) => {
       downloadDocument(data.data.data.download_url)
@@ -197,21 +209,52 @@ function downloadTemplate () {
     .catch(() => {});
 }
 
+
 const period = ref({
   date_ini: '',
   date_end: ''
 })
 
-function downloadCheckInReport () {
+async function downloadCheckInReport () {
+  const periodFormat = {
+    date_ini: convertDateFormat(period.value.date_ini),
+    date_end: convertDateFormat(period.value.date_end)
+  }
+
   const params = {
-    credentials: credentails.value,
-    period: period.value
+    credentials: credentials.value,
+    period: periodFormat
   }
 
   GeneralServices.downloadChekInReport(params)
     .then((data) => {
-      // downloadDocument(data.data.data.donwload_url)
+      downloadDocument(data.data.data.download_url)
+    })
+    .catch(() => {});
+}
+
+
+async function downloadPilotsList() {
+  GeneralServices.pilotsExport(credentials.value)
+    .then((data) => {
+      downloadDocument(data.data.data.download_url)
+    })
+    .catch(() => {});
+}
+
+
+async function uploadListPilots(event) {
+	let formData = new FormData()
+
+  formData.append('user_name', credentials.value.user_name)
+  formData.append('password', credentials.value.password)
+	formData.append('excel_file', event.target.files[0])
+
+
+  GeneralServices.pilotsImport(formData)
+    .then((data) => {
       console.log(data)
+      loadPilots();
     })
     .catch(() => {});
 }
@@ -219,8 +262,6 @@ function downloadCheckInReport () {
 onMounted(async () => {
   await loadPilots();
 });
-
-const name = 'file'
 </script>
 
 <style scoped>

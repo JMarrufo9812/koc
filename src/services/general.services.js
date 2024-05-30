@@ -47,4 +47,24 @@ export class GeneralRequests {
 
       return requestService.makePromise(route, method, { params: params.credentials }, map)
     }
+    pilotsExport(params) {
+      const route = ServerDirections.PILOTS_EXPORT
+      const method = 'get'
+
+      function map (res) {
+        return res
+      }
+
+      return requestService.makePromise(route, method, { params }, map)
+    }
+    pilotsImport(params) {
+      const route = ServerDirections.PILOTS_IMPORT
+      const method = 'post'
+
+      function map (res) {
+        return res
+      }
+
+      return requestService.makePromise(route, method, { params }, map)
+    }
 }

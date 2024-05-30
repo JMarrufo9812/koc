@@ -7,8 +7,7 @@
             Escaneo de derecho
           </p>
           <FieldText 
-            @input="search = $event" 
-            :value="search" 
+            v-model="search"
             class="my-10"
           />
           <Button 

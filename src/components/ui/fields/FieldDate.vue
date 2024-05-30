@@ -16,6 +16,7 @@
         :class="[{ 'mt-5': label }, { 'border-red': !isValid}]"
         :placeholder="placeholder"
         style="font-size: 1.5em;"
+        :inputFormat="'yyyy-MM-dd'"
         :locale="es"
         :name="name"
         ref="datepicker"
@@ -84,8 +85,6 @@ const props = defineProps({
     }
 });
 
-// const datepicker = ref(null);  
-
 const model = computed({
   get() {
     return props.modelValue || null;
@@ -98,7 +97,6 @@ const model = computed({
 watch(() => props.modelValue, () => {
   nextTick(() => {
     const input = document.querySelector(`input[name="${props.name}"]`);
-    console.log(input)
     if (input) {
       input.blur();
     }

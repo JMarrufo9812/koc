@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 export function downloadDocument(url) {
   const link = document.createElement('a');
 
@@ -10,4 +12,10 @@ export function downloadDocument(url) {
   link.click();
 
   document.body.removeChild(link);
+}
+
+
+export function convertDateFormat(dateString) {
+  const date = DateTime.fromJSDate(new Date(dateString));
+  return date.toFormat('yyyy-MM-dd');
 }
