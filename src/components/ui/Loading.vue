@@ -1,7 +1,7 @@
 <template>
   <div class="background-primary height-max flex justify-center align-center">
     <div>
-      <img src="@/assets/koc_logo.png" alt="">
+      <img src="@/assets/logos/koc_logo.png" alt="">
       <p class="font1-5em text-uppercase my-20 text-bold text-white text-center">
         Cargando...
       </p>

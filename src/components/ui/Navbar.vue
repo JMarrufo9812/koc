@@ -1,7 +1,7 @@
 <template>
   <header class="background-navbar">
     <div class="flex justify-center pb-10">
-      <img @click="handlerHome" src="@/assets/koc_logo.png" alt="" class="cursor-pointer">
+      <img @click="handlerHome" src="@/assets/logos/koc_logo.png" alt="" class="cursor-pointer">
     </div>
   </header>
 </template>

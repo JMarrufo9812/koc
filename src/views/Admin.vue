@@ -1,5 +1,5 @@
 <template>
-  <div class="px-20">
+  <div class="px-10">
     <p class="font2em text-uppercase my-20 text-primary text-bold text-center">
       Carga de datos de acceso a pista
     </p>
@@ -21,18 +21,11 @@
             <FieldText v-model="credentials.password" />
           </div>
         </div>
-        <div class="background-light p-10 mt-10 flex align-center">
-          <div class="min-width-30">
+        <div class="background-light p-10 mt-10 flex align-center flex-wrap">
+          <div class="flex flex-grow-1 my-5">
             <span class="font1-5em text-bold">Carga de derechos</span>
           </div>
-          <div class="min-width-35">
-		        <input 
-							id="inputFile"
-							type="file" 
-							accept=".xlsx, .xls, .csv"
-							@change="uploadListPilots($event)" 
-							style="visibility: hidden;"
-						> 
+          <div class="flex justify-center flex-grow-1 my-5">
             <Button>
               <template #button-content>
                 <label for="inputFile">
@@ -43,8 +36,15 @@
                 </label>
               </template>
             </Button>
+            <input 
+              id="inputFile"
+              type="file" 
+              accept=".xlsx, .xls, .csv"
+              @change="uploadListPilots($event)" 
+              style="visibility: hidden; position: fixed;"
+            > 
           </div>
-          <div class="min-width-35 flex align-center justify-center">
+          <div class="flex align-center justify-center flex-grow-1 my-5">
             <MicrosoftExcel :h="25" :w="25" />
             <span
               @click="downloadTemplate"
@@ -91,7 +91,7 @@
                 </template>
               </FieldDate>
             </div>
-            <div class="flex my-10">
+            <div class="flex flex-grow-1 justify-center my-10">
               <Button @click="downloadCheckInReport" :text="'Descargar'" />
             </div>
           </div>
@@ -107,32 +107,12 @@
             </span>
           </div>
           <div class="my-10">
-            <Button>
-              <template #button-content>
-                <label for="file">
-                  <h2 class="font1-5em text-white margin-y-none">
-                    <span class="ion-plus"></span>
-                    Agregar imagenes
-                  </h2>
-                </label>
-              </template>
-            </Button>
-          </div>
-          <div class="flex flex-wrap">
-            <div class="p-10 flex-grow-1">
-              <Button :text="'Subir todo'" :color="'blue'"> </Button>
-            </div>
-            <div class="p-10 flex-grow-1">
-              <Button :text="'Borrar todo'" :color="'error'"> </Button>
-            </div>
-          </div>
-          <div>
             <FileUpload />
           </div>
         </div>
       </div>
       <div
-        class="background-light flex-grow-1 m-10 min-width-50 min-height-500"
+        class="background-light flex-grow-5 m-10 min-height-500 flex"
       >
         <BaseTable :headers="headers" :items="listPilots" />
       </div>

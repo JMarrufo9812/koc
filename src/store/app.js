@@ -8,10 +8,23 @@ export const useAppStore = defineStore('app', () => {
   const handleLoading = (value) => {
     loading.value = value;
   }
+  
+
+  const modalError = ref({
+    show: false,
+    message: ''
+  })
+
+  const handleModalError = ({ show, message }) => {
+    modalError.value.show = show;
+    modalError.value.show = message;
+  }
 
   return {
     loading,
-    handleLoading
+    handleLoading,
+    modalError,
+    handleModalError
   }
 
 })
