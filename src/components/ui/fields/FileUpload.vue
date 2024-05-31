@@ -221,7 +221,6 @@ const upload = ref(null)
 
 function deleteAll(){
   files.value.forEach(file => {
-    console.log(upload)
     upload.value.remove(file)
   })
 }

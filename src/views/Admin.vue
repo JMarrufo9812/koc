@@ -30,7 +30,8 @@
               <template #button-content>
                 <label for="inputFile">
                   <div class="flex align-center justify-center">
-                    <Excel :h="25" :w="25" :color="'#ffff'" />
+                    <Spinner v-if="loadingImportPilots" style="color: #ffff; position: relative; font-size: 1em; margin-right: 5px;"/>
+                    <Excel v-else :h="25" :w="25" :color="'#ffff'" />
                     <span class="font1-5em text-white pl-5">Cargar excel</span>
                   </div>
                 </label>
@@ -131,6 +132,7 @@ import MicrosoftExcel from "@/assets/icons/MicrosoftExcel.vue";
 import ArrowLeft from "@/assets/icons/ArrowLeft.vue";
 import BaseTable from "@/components/ui/BaseTable.vue";
 import FileUpload from "@/components/ui/fields/FileUpload.vue";
+import Spinner from "@/components/ui/Spinner.vue"
 
 import  { useAppStore } from '@/store/app'
 
@@ -168,8 +170,8 @@ const headers = ref([
 
 
 const credentials = ref({
-  user_name: "usertest",
-	password: "123456",
+  user_name: "",
+	password: "",
 })
 
 
@@ -180,7 +182,9 @@ async function loadPilots() {
     .then((data) => {
       listPilots.value = data.data;
     })
-    .catch(() => {});
+    .catch(() => {
+      appStore.handleModalError({ show: true, message: 'Ocurrió un error al cargar los pilotos, intente nuevamente'})
+    });
 }
 
 
@@ -188,9 +192,10 @@ async function downloadTemplate () {
   GeneralServices.downloadPilotsTemplate(credentials.value)
     .then((data) => {
       downloadDocument(data.data.data.download_url)
-      console.log(data)
     })
-    .catch(() => {});
+    .catch(() => {
+      appStore.handleModalError({ show: true, message: 'Ocurrió un error al descargar la plantilla, intente nuevamente'})
+    });
 }
 
 
@@ -215,8 +220,9 @@ async function downloadCheckInReport () {
       downloadDocument(data.data.data.download_url)
     })
     .catch((error) => {
-      console.log(error.response)
-      appStore.handleModalError({ show: true })
+      Object.values(error.response.data.message).forEach((error) => {
+        appStore.handleModalError({ show: true, message: error[0]})
+      })
     });
 }
 
@@ -226,11 +232,15 @@ async function downloadPilotsList() {
     .then((data) => {
       downloadDocument(data.data.data.download_url)
     })
-    .catch(() => {});
+    .catch(() => {
+      appStore.handleModalError({ show: true, message: 'Ocurrió un error al descargar los pilotos, intente nuevamente'})
+    });
 }
 
+const loadingImportPilots = ref(false)
 
 async function uploadListPilots(event) {
+  loadingImportPilots.value = true
 	let formData = new FormData()
 
   formData.append('user_name', credentials.value.user_name)
@@ -239,10 +249,15 @@ async function uploadListPilots(event) {
 
 
   GeneralServices.pilotsImport(formData)
-    .then((data) => {
+    .then(() => {
       loadPilots();
     })
-    .catch(() => {});
+    .catch(() => {
+      appStore.handleModalError({ show: true, message: 'Ocurrió un error al cargar los pilotos, intente nuevamente'})
+    })
+    .finally(() => {
+      loadingImportPilots.value = false
+    })
 }
 
 onMounted(async () => {

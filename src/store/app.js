@@ -16,9 +16,8 @@ export const useAppStore = defineStore('app', () => {
   })
 
   const handleModalError = ({ show, message }) => {
-    console.log({ show, message })
     modalError.value.show = show;
-    modalError.value.show = message;
+    modalError.value.msg = message;
   }
 
   return {

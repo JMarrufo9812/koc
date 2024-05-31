@@ -13,7 +13,6 @@ const route = useRoute();
 const router = useRouter();
 
 function handlerHome() {
-  console.log('handlerHome', route.name)
   if(route.name === 'home') {
     window.location.reload();
   } else {

@@ -3,23 +3,30 @@
     <div class="modal-wrapper">
       <div class="modal-container">
         <div class="modal-body">
-          <div class="flex justify-center">
-            <div>
-              <div
-                class="back-error flex justify-center align-center rounded"
-                style="width: 75px; height: 75px"
-              >
-                <span
-                  class="ion-close-round text-white"
-                  style="font-size: 45px"
-                ></span>
+          <div class="flex justify-center py-20">
+            <div style="width: 80%;">
+              <div class="flex justify-center">
+                <div
+                  class="back-error flex justify-center align-center rounded"
+                  style="width: 75px; height: 75px"
+                >
+                  <span
+                    class="ion-close-round text-white"
+                    style="font-size: 45px"
+                  ></span>
+                </div>
               </div>
-              <p class="font1-5em text-center mt-10 text-bold">
-                Error
+              <p class="font1-5em text-center mt-20 text-bold text-uppercase">
+                ¡Error!
               </p>
-              <p class="font1em text-center mt-10 text-bold">
+              <p class="font1-5em text-center mt-10">
                 {{ appStore.modalError.msg }}
               </p>
+              <Button
+                class="py-20"  
+                @click="appStore.handleModalError({ show: false, message: null })" 
+                :text="'Entendido'" 
+              />
             </div>
           </div>
         </div>
@@ -29,6 +36,8 @@
 </template>
 
 <script setup>
+import Button from "@/components/ui/Button.vue";
+
 import  { useAppStore } from '@/store/app'
 
 const appStore = useAppStore()

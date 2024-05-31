@@ -4,7 +4,6 @@
       class="my-btn text-uppercase widht100"
       :style="getColor"
       >
-      <!-- style="box-shadow: 0 0 0 transparent !important" -->
       <slot name="button-content">
         <span class="font1-5em text-white">{{ text }}</span>
       </slot>
@@ -26,7 +25,7 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false
-  }
+  },
 })
 
 const getColor = computed(() => {
