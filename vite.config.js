@@ -89,7 +89,10 @@ export default defineConfig({
     },
   },
   plugins: [
-    laravel(['src/main.js']),
+    laravel({
+      input: 'src/main.js',
+      refresh: true,
+    }),
     vue(),
     legacy({
       targets: ['defaults', 'not IE 11']
