@@ -67,18 +67,15 @@
 // });
 
 import { defineConfig } from 'vite'
-import vue from "@vitejs/plugin-vue2"
-import legacy from '@vitejs/plugin-legacy'
-import path from 'path'
 import laravel from 'laravel-vite-plugin';
+import vue from '@vitejs/plugin-vue'
+
+import legacy from '@vitejs/plugin-legacy'
 
 export default defineConfig({
   resolve: {
     alias: {
-      // "@" -> "/User/project-root/src/views"
-      // '@': fileURLToPath(new URL('./src', import.meta.url)),
-      '@': path.resolve(__dirname, './src'),
-      vue: 'vue/dist/vue.esm.js',
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
   css: {

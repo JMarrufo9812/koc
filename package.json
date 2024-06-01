@@ -11,6 +11,7 @@
     "copy": "ncp build/ ../laravel/public/build && ncp index.html ../laravel/resources/views/welcome.blade.php"
   },
   "dependencies": {
+    "@vitejs/plugin-legacy": "^5.4.1",
     "axios": "^1.7.2",
     "html5-qrcode": "^2.1.5",
     "laravel-vite-plugin": "^1.0.4",
