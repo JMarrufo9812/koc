@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "serve": "cross-env NODE_ENV=development vite --host",
     "dev": "cross-env NODE_ENV=development mix vite --host",
     "build": "cross-env NODE_ENV=production vite build && npm run clean && npm run copy",
     "start": "vite server.js",
