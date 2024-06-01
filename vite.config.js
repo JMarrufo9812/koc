@@ -1,36 +1,36 @@
-import { fileURLToPath, URL } from 'node:url'
+// import { fileURLToPath, URL } from 'node:url'
 
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import laravel from 'laravel-vite-plugin';
+// import { defineConfig } from 'vite'
+// import vue from '@vitejs/plugin-vue'
+// import laravel from 'laravel-vite-plugin';
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    vue(),
-    laravel(['src/main.js']),
-  ],
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: `
-          @import "./src/styles/app.scss";
-        `
-      },
-    },
-  },
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
-  },
-  build: {
-    outDir: 'build',
-    manifest: true,
-    target: 'es2020'
-    // minify: false,
-  },
-})
+// // https://vitejs.dev/config/
+// export default defineConfig({
+//   plugins: [
+//     vue(),
+//     laravel(['src/main.js']),
+//   ],
+//   css: {
+//     preprocessorOptions: {
+//       scss: {
+//         additionalData: `
+//           @import "./src/styles/app.scss";
+//         `
+//       },
+//     },
+//   },
+//   resolve: {
+//     alias: {
+//       '@': fileURLToPath(new URL('./src', import.meta.url))
+//     }
+//   },
+//   build: {
+//     outDir: 'build',
+//     manifest: true,
+//     target: 'es2020'
+//     // minify: false,
+//   },
+// })
 
 // import { fileURLToPath, URL } from 'node:url';
 // import { defineConfig } from 'vite';
@@ -65,3 +65,48 @@ export default defineConfig({
 //     },
 //   },
 // });
+
+import { defineConfig } from 'vite'
+import vue from "@vitejs/plugin-vue2"
+import legacy from '@vitejs/plugin-legacy'
+import path from 'path'
+import laravel from 'laravel-vite-plugin';
+
+export default defineConfig({
+  resolve: {
+    alias: {
+      // "@" -> "/User/project-root/src/views"
+      // '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@': path.resolve(__dirname, './src'),
+      vue: 'vue/dist/vue.esm.js',
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
+          @import "./src/styles/app.scss";
+        `
+      },
+    },
+  },
+  plugins: [
+    laravel(['src/main.js']),
+    vue(),
+    legacy({
+      targets: ['defaults', 'not IE 11']
+    }),
+  ],
+  optimizeDeps: {
+    esbuildOptions: {
+      target: 'es2020'
+    }
+  },
+  build: {
+    outDir: 'build',
+    manifest: true,
+    target: 'es2020'
+    // minify: false,
+  },
+  publicDir: 'public',
+})
