@@ -123,7 +123,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted } from "vue";
 
 import Button from "@/components/ui/Button.vue";
 import FieldText from "@/components/ui/fields/FieldText.vue";
@@ -139,7 +139,7 @@ import  { useAppStore } from '@/store/app'
 
 const appStore = useAppStore()
 
-import { downloadDocument, convertDateFormat } from "@/utils"
+import { downloadDocument, convertDateFormat, scrollTop } from "@/utils"
 
 import { GeneralRequests } from "@/services/general.services";
 
@@ -262,6 +262,7 @@ async function uploadListPilots(event) {
 
 onMounted(async () => {
   await loadPilots();
+  scrollTop()
 });
 </script>
 

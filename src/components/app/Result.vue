@@ -20,9 +20,9 @@
         </div>
       </div>
       <div v-else style="height: 100vh">
-        <div class="flex justify-between font1-5em text-light">
-          <p> Derecho: {{ info.code }} </p>
-          <p> Pit: {{ info.data.data.place }}</p>
+        <div class="flex justify-between font1-5em text-light pb-5 pt-20">
+          <span> Derecho: {{ info.code }} </span>
+          <span>{{ info.data.data.place }}</span>
         </div>
         <div>
           <span class="font1-5em text-light">{{ info.data.data.name }} </span>
@@ -33,12 +33,14 @@
             :src="info.data.data.images.normal"
             class="race-image"
           />
-          <NoImage v-else :w="'100%'" />
+          <div v-else class="race-image">
+            <NoImage :w="'100%'" />
+          </div>
         </div>
         <div v-if="info.type === 'ERROR'" class="my-30 text-uppercase text-center font1-5em text-light text-bold">
           Negar acceso a pista
         </div>
-        <div v-if="info.type === 'SUCCESS'" class="my-30 text-uppercase text-center font1-5em text-light text-bold flex align-center justify-center">
+        <div v-if="info.type === 'SUCCESS'" class="text-uppercase text-center font1-5em text-light text-bold flex align-center justify-center">
           <Flag v-if="info.type === 'SUCCESS' && !rawDate" :w="30" :h="30" class="pr-10"/>
           Nivel: {{ info.data.data.level }}
         </div>
@@ -48,8 +50,10 @@
             <Flag v-if="info.type === 'SUCCESS' && rawDate" :w="30" :h="30"/>
           </div>
           <div v-if="rawDate" class="flex-grow-2 text-right font1-5em text-light">
-            <p>Acceso previo:</p>
-            <p>{{ formattedDate }} </p>
+            <div class="pb-5">
+              <span>Acceso previo:</span>
+            </div>
+            <span>{{ formattedDate }} </span>
           </div>
         </div>
       </div>
@@ -80,6 +84,6 @@
 .race-image{
   max-width: 100%;
   height: auto;
-  max-height: 60vh
+  max-height: 500px
 }
 </style>

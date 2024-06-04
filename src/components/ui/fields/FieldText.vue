@@ -21,6 +21,18 @@
         style="font-size: 1.3em; padding: 13px"
         :style="styles"
       />
+      <!--  -->
+      <div
+        v-if="cleareble && model.length > 2" 
+        class="absolute flex justify-center align-center"
+        style="right: 0px; width: 35px; height: 100%"
+      >
+        <span
+          @click="model = ''"
+          class="ion-close-circled cursor-pointer text-gray font2em pr-5"
+        >
+        </span>
+      </div>
       <div
         v-if="showPrepend"
         class="absolute flex flex-center flex-middle"
@@ -38,7 +50,7 @@
 <script setup>
 import { computed } from "vue";
 
-const emit = defineEmits(["input"]);
+const emit = defineEmits(["input", "update:modelValue"]);
 
 const props = defineProps({
   modelValue: {
@@ -81,6 +93,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  cleareble: {
+    type: Boolean,
+    default: false,
+  }
 });
 
 const model = computed({

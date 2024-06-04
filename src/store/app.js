@@ -20,7 +20,15 @@ export const useAppStore = defineStore('app', () => {
     modalError.value.messages = messages;
   }
 
+  const showScannerIcon = ref(false)
+
+  const handleShowScannerIcon = (value) => {
+    showScannerIcon.value = value;
+  }
+
   return {
+    showScannerIcon,
+    handleShowScannerIcon,
     loading,
     handleLoading,
     modalError,

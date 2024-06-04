@@ -8,17 +8,16 @@
           </p>
           <FieldText 
             v-model="search"
+            :cleareble="true"
             class="my-10"
+            @keyup.enter="searchHandler"
           />
           <Button 
             :text="'Buscar'" 
             @click="!search ? '' : searchHandler()" 
             :disabled="!search"
           />
-          <p class="font2em my-20 text-gray text-center">
-            Enfoca la camara hacia el objetivo
-          </p>
-          <CodeScanner @result="handlerScan"/>
+          <CodeScanner class="mt-10" @result="handlerScan"/>
         </template>
       </div>
     </div>
@@ -35,13 +34,19 @@ import CodeScanner from "@/components/ui/CodeScanner.vue";
 import FieldText from "@/components/ui/fields/FieldText.vue";
 import Loading from "@/components/ui/Loading.vue";
 import Result from "@/components/app/Result.vue";
+
 import  { useAppStore } from '@/store/app'
-import { ref } from "vue";
+
+const appStore = useAppStore()
+
+import { ref, onMounted } from "vue";
+
 import { GeneralRequests } from "@/services/general.services";
+
+import { scrollTop } from "@/utils"
 
 const GeneralServices = new GeneralRequests()
 
-const appStore = useAppStore()
 
 const view = ref('SCAN')
 
@@ -73,6 +78,12 @@ async function searchHandler () {
     }).finally(() => {
       view.value = 'RESULT'
       appStore.handleLoading(false)
+      appStore.handleShowScannerIcon(true)
+      scrollTop()
     })
 }
+
+onMounted(() => {
+  scrollTop()
+});
 </script>
