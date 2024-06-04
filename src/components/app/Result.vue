@@ -4,7 +4,7 @@
       <div 
         v-if="info.data.message === 'Piloto no encontrado.'" 
         style="height: 100vh" 
-        class="flex align-center"
+        class="flex align-center justify-center"
       >
         <div class="font1-5em text-light">
             <p class="text-center font1-5em text-light text-bold"> Derecho: {{ info.code }} </p>

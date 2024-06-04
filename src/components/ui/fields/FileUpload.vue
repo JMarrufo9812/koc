@@ -35,7 +35,7 @@
       :size="size || 0"
       :drop="true"
       :drop-directory="true"
-      :data="data"
+      :data="credentials"
       :extensions="extensions"
       ref="upload"
       style="width: 100%; height: 20vh"
@@ -121,12 +121,14 @@
                 $refs.upload.features.html5
               "
               class="widht100"
-              @click.prevent="
+              @click.prevent="[
                 $refs.upload.update(file, {
                   active: true,
                   error: '',
                   progress: '0.00',
-                })
+                  data: credentials
+                }),
+              ]
               "
               :color="'blue'"
             >
@@ -185,14 +187,13 @@
           v-if="file.error"
           class="flex text-white back-error p-10 padding10"
         >
-          <span class="font1-5em pr-5"> Error: </span>
+          <span class="font1-5em pr-5">Error: </span>
           <div class="color-white font1-5em">
-            {{ file.response.message[0] }}
+            {{ file.response.message }}
           </div>
         </div>
       </div>
     </section>
-    <!--  @input-file="inputFile" -->
   </div>
 </template>
 
@@ -212,10 +213,12 @@ const size = 1024 * 1024 * 5;
 
 const files = ref([]);
 
-const data = {
-  user_name: "usertest",
-  password: "123456",
-};
+const props = defineProps({
+  credentials: {
+    type: Object,
+    default: {}
+  },
+});
 
 const upload = ref(null)
 

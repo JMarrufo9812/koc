@@ -26,10 +26,10 @@
             <span class="font1-5em text-bold">Carga de derechos</span>
           </div>
           <div class="flex justify-center flex-grow-1 my-5">
-            <Button>
+            <Button :styleBtn="'padding: 0px'">
               <template #button-content>
                 <label for="inputFile">
-                  <div class="flex align-center justify-center">
+                  <div class="flex align-center justify-center" style="padding: .8em; cursor: pointer;">
                     <Spinner v-if="loadingImportPilots" style="color: #ffff; position: relative; font-size: 1em; margin-right: 5px;"/>
                     <Excel v-else :h="25" :w="25" :color="'#ffff'" />
                     <span class="font1-5em text-white pl-5">Cargar excel</span>
@@ -43,6 +43,7 @@
               accept=".xlsx, .xls, .csv"
               @change="uploadListPilots($event)" 
               style="visibility: hidden; position: fixed;"
+              :key="keyInputFile"
             > 
           </div>
           <div class="flex align-center justify-center flex-grow-1 my-5">
@@ -108,7 +109,7 @@
             </span>
           </div>
           <div class="my-10">
-            <FileUpload />
+            <FileUpload :credentials="credentials" />
           </div>
         </div>
       </div>
@@ -182,9 +183,7 @@ async function loadPilots() {
     .then((data) => {
       listPilots.value = data.data;
     })
-    .catch(() => {
-      appStore.handleModalError({ show: true, message: 'Ocurrió un error al cargar los pilotos, intente nuevamente'})
-    });
+    .catch(() => {});
 }
 
 
@@ -193,8 +192,8 @@ async function downloadTemplate () {
     .then((data) => {
       downloadDocument(data.data.data.download_url)
     })
-    .catch(() => {
-      appStore.handleModalError({ show: true, message: 'Ocurrió un error al descargar la plantilla, intente nuevamente'})
+    .catch((error) => {
+      appStore.handleModalError({ show: true, messages: error.response.data.message})
     });
 }
 
@@ -220,9 +219,7 @@ async function downloadCheckInReport () {
       downloadDocument(data.data.data.download_url)
     })
     .catch((error) => {
-      Object.values(error.response.data.message).forEach((error) => {
-        appStore.handleModalError({ show: true, message: error[0]})
-      })
+      appStore.handleModalError({ show: true, messages: error.response.data.message})
     });
 }
 
@@ -232,12 +229,14 @@ async function downloadPilotsList() {
     .then((data) => {
       downloadDocument(data.data.data.download_url)
     })
-    .catch(() => {
-      appStore.handleModalError({ show: true, message: 'Ocurrió un error al descargar los pilotos, intente nuevamente'})
+    .catch((error) => {
+      appStore.handleModalError({ show: true, messages: error.response.data.message})
     });
 }
 
 const loadingImportPilots = ref(false)
+
+const keyInputFile = ref(`${new Date()}`)
 
 async function uploadListPilots(event) {
   loadingImportPilots.value = true
@@ -252,10 +251,11 @@ async function uploadListPilots(event) {
     .then(() => {
       loadPilots();
     })
-    .catch(() => {
-      appStore.handleModalError({ show: true, message: 'Ocurrió un error al cargar los pilotos, intente nuevamente'})
+    .catch((error) => {
+      appStore.handleModalError({ show: true, messages: error.response.data.message})
     })
     .finally(() => {
+      keyInputFile.value = `${new Date()}`
       loadingImportPilots.value = false
     })
 }

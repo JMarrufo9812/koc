@@ -19,12 +19,12 @@
               <p class="font1-5em text-center mt-20 text-bold text-uppercase">
                 ¡Error!
               </p>
-              <p class="font1-5em text-center mt-10">
-                {{ appStore.modalError.msg }}
+              <p v-for="message in appStore.modalError.messages" class="font1-5em text-center">
+                {{ message }}
               </p>
               <Button
                 class="py-20"  
-                @click="appStore.handleModalError({ show: false, message: null })" 
+                @click="appStore.handleModalError({ show: false, messages: null })" 
                 :text="'Entendido'" 
               />
             </div>

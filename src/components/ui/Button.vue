@@ -26,13 +26,16 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  styleBtn: {
+    type: String,
+  }
 })
 
 const getColor = computed(() => {
   if (props.disabled) {
-    return `background: var(--gray)`  
+    return `${props.styleBtn}; background: var(--gray)`  
   }
-  return `background: var(--${props.color})`
+  return `${props.styleBtn}; background: var(--${props.color})`
 });
 </script>
 

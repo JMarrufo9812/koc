@@ -12,12 +12,12 @@ export const useAppStore = defineStore('app', () => {
 
   const modalError = ref({
     show: false,
-    msg: ''
+    messages: ''
   })
 
-  const handleModalError = ({ show, message }) => {
+  const handleModalError = ({ show, messages }) => {
     modalError.value.show = show;
-    modalError.value.msg = message;
+    modalError.value.messages = messages;
   }
 
   return {
