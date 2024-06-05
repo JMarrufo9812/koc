@@ -1,5 +1,5 @@
 <template>
-  <div id="qr-code-full-region"></div>
+  <div id="qr-code-full-region" style="width: 85vw;"></div>
 </template>
 
 <script setup>

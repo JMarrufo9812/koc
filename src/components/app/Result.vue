@@ -4,7 +4,7 @@
       <div 
         v-if="info.data.message === 'Piloto no encontrado.'" 
         style="height: 100vh" 
-        class="flex align-center justify-center"
+        class="flex justify-center"
       >
         <div class="font1-5em text-light">
             <p class="text-center font1-5em text-light text-bold"> Derecho: {{ info.code }} </p>
@@ -84,6 +84,6 @@
 .race-image{
   max-width: 100%;
   height: auto;
-  max-height: 500px
+  max-height: 380px
 }
 </style>

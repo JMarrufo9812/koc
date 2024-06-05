@@ -17,7 +17,9 @@
             @click="!search ? '' : searchHandler()" 
             :disabled="!search"
           />
-          <CodeScanner class="mt-10" @result="handlerScan"/>
+          <div class="flex justify-center">
+            <CodeScanner class="mt-10" @result="handlerScan"/>
+          </div>
         </template>
       </div>
     </div>
