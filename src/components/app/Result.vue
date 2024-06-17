@@ -37,7 +37,7 @@
             <NoImage :w="'100%'" />
           </div>
         </div>
-        <div v-if="info.type === 'ERROR'" class="my-30 text-uppercase text-center font1-5em text-light text-bold">
+        <div v-if="info.type === 'ERROR'" class="text-uppercase text-center font1-5em text-light text-bold">
           Negar acceso a pista
         </div>
         <div v-if="info.type === 'SUCCESS'" class="text-uppercase text-center font1-5em text-light text-bold flex align-center justify-center">
