@@ -5,6 +5,9 @@
 .font1-5em {
 	font-size: 1.5em;
 }
+.font1-3em {
+	font-size: 1.3em;
+}
 .font2em {
 	font-size: 2em;
 }
@@ -23,7 +26,7 @@
 	text-transform: uppercase;
 }
 
-$color-names: "light", "primary", "success", "error", "white", "gray", "primary-light";
+$color-names: "light", "primary", "success", "error", "white", "gray", "primary-light", "blue";
 
 @each $color in $color-names {
   .text-#{$color} {
@@ -45,4 +48,7 @@ $color-names: "light", "primary", "success", "error", "white", "gray", "primary-
 
 .text-pointer {
 	cursor: pointer;
+	&:hover {
+		text-decoration: underline;
+	}
 }

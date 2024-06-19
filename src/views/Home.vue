@@ -3,9 +3,22 @@
     <div v-if="!appStore.loading" class="flex justify-center">
       <div class="container">
         <template v-if="view === 'SCAN'">
-          <p class="font2em text-uppercase my-20 text-primary text-bold text-center">
-            Escaneo de derecho
-          </p>
+          <div v-if="!accessMode">
+            <p class="font2em text-uppercase my-20 text-primary text-bold text-center">
+              Escaneo de derecho
+            </p>
+          </div>
+          <div v-if="accessMode" class="flex justify-between align-center">
+            <p class="font1-5em text-uppercase text-primary text-bold text-center">
+              Control de acceso
+            </p>
+            <div @click="$router.push({ name: 'guestRegister' })" class="flex align-center font1-5em text-blue text-bold text-center text-pointer">
+              <span class="ion-plus-round" style="font-size: 15px"></span>
+              <span class="pl-5">
+                Invitado
+              </span>
+            </div>
+          </div>
           <FieldText 
             v-model="search"
             :cleareble="true"
@@ -37,22 +50,24 @@ import FieldText from "@/components/ui/fields/FieldText.vue";
 import Loading from "@/components/ui/Loading.vue";
 import Result from "@/components/app/Result.vue";
 
-import  { useAppStore } from '@/store/app'
+import { ref, onMounted, computed } from "vue";
+import { scrollTop } from "@/utils"
+import { useAppStore } from '@/store/app'
+import { GeneralRequests } from "@/services/general.services";
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 
 const appStore = useAppStore()
 
-import { ref, onMounted } from "vue";
-
-import { GeneralRequests } from "@/services/general.services";
-
-import { scrollTop } from "@/utils"
-
 const GeneralServices = new GeneralRequests()
-
 
 const view = ref('SCAN')
 
-const search = ref("");
+const accessMode = computed(() => {
+  return route.path === '/access'
+})
+
 
 const resultInfo = ref({})
 
@@ -60,6 +75,9 @@ function handlerScan(value) {
   search.value = value
   searchHandler()
 }
+
+
+const search = ref("");
 
 async function searchHandler () {
   appStore.handleLoading(true)

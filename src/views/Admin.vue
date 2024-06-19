@@ -50,7 +50,7 @@
             <MicrosoftExcel :h="25" :w="25" />
             <span
               @click="downloadTemplate"
-              class="font1-5em text-bold text-primary-light pl-5 text-underline text-pointer"
+              class="font1-5em text-bold text-primary-light pl-5 text-pointer"
             >
               Descargar plantilla
             </span>
