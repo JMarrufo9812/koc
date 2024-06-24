@@ -20,6 +20,7 @@ export function convertDateFormat(dateString) {
   return date.toFormat('yyyy-MM-dd');
 }
 
+
 export function scrollTop() {
   const element = document.getElementById('header');
   
@@ -39,4 +40,17 @@ export function scrollTop() {
   document.documentElement.scrollTop = 0
   
   window.scrollTo(0, 0);
+}
+
+export function blobToFile(blob, fileName, fileType) {
+  // El tipo de archivo es opcional. Si no se proporciona, se usa el tipo del blob.
+  fileType = fileType || blob.type;
+
+  // Crear un nuevo File a partir del Blob
+  const file = new File([blob], fileName, {
+      type: fileType,
+      lastModified: Date.now()
+  });
+
+  return file;
 }

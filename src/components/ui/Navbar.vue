@@ -19,11 +19,13 @@ const router = useRouter();
 
 function handlerHome() {
   appStore.handleShowScannerIcon(false)
-  if(route.name === 'home') {
+  if(route.name === 'home' || route.name === 'access') {
     window.location.reload();
+  } else if (route.name === 'guestRegister') {
+    router.push({ path: '/access' })
   } else {
     router.push({ path: '/' })
-  }
+  } 
 }
 
 </script>

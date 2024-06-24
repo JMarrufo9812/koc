@@ -30,13 +30,17 @@
         <div class="flex font1-5em">
           <div>
             <p>Foto identificación</p>
-            <p class="text-pointer text-blue">Cargar foto</p>
+            <p @click="step = 'CAM'" class="text-pointer text-blue">
+              Cargar foto
+            </p>
           </div>
         </div>
         <div class="flex font1-5em">
           <div>
             <p>Foto invitado</p>
-            <p class="text-pointer text-blue">Cargar foto</p>
+            <p @click="step = 'CAM'" class="text-pointer text-blue">
+              Cargar foto
+            </p>
           </div>
         </div>
         <Button
@@ -44,6 +48,9 @@
           :text="'Registrar'" 
           @click="step = 1" 
         />
+      </div>
+      <div v-show="step === 'CAM'">
+        <CamPhoto />
       </div>
     </div>
   </div>
@@ -54,6 +61,7 @@ import { ref } from 'vue'
 
 import FieldText from "@/components/ui/fields/FieldText.vue";
 import Button from "@/components/ui/Button.vue";
+import CamPhoto from '@/components/app/CamPhoto.vue';
 
 const step = ref(1)
 

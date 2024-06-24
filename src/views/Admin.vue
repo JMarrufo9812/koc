@@ -141,9 +141,9 @@ const appStore = useAppStore()
 
 import { downloadDocument, convertDateFormat, scrollTop } from "@/utils"
 
-import { GeneralRequests } from "@/services/general.services";
+import { PilotsRequests } from "@/services/pilots.services";
 
-const GeneralServices = new GeneralRequests();
+const pilotsServices = new PilotsRequests();
 
 
 const headers = ref([
@@ -179,7 +179,7 @@ const credentials = ref({
 const listPilots = ref([]);
 
 async function loadPilots() {
-  GeneralServices.getPilots()
+  pilotsServices.getPilots()
     .then((data) => {
       listPilots.value = data.data;
     })
@@ -188,7 +188,7 @@ async function loadPilots() {
 
 
 async function downloadTemplate () {
-  GeneralServices.downloadPilotsTemplate(credentials.value)
+  pilotsServices.downloadPilotsTemplate(credentials.value)
     .then((data) => {
       downloadDocument(data.data.data.download_url)
     })
@@ -214,7 +214,7 @@ async function downloadCheckInReport () {
     period: periodFormat
   }
 
-  GeneralServices.downloadChekInReport(params)
+  pilotsServices.downloadChekInReport(params)
     .then((data) => {
       downloadDocument(data.data.data.download_url)
     })
@@ -225,7 +225,7 @@ async function downloadCheckInReport () {
 
 
 async function downloadPilotsList() {
-  GeneralServices.pilotsExport(credentials.value)
+  pilotsServices.pilotsExport(credentials.value)
     .then((data) => {
       downloadDocument(data.data.data.download_url)
     })
@@ -247,7 +247,7 @@ async function uploadListPilots(event) {
 	formData.append('excel_file', event.target.files[0])
 
 
-  GeneralServices.pilotsImport(formData)
+  pilotsServices.pilotsImport(formData)
     .then(() => {
       loadPilots();
     })

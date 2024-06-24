@@ -53,14 +53,16 @@ import Result from "@/components/app/Result.vue";
 import { ref, onMounted, computed } from "vue";
 import { scrollTop } from "@/utils"
 import { useAppStore } from '@/store/app'
-import { GeneralRequests } from "@/services/general.services";
+import { PilotsRequests } from "@/services/pilots.services";
+import { AccessRequests } from "@/services/access.services";
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
 
 const appStore = useAppStore()
 
-const GeneralServices = new GeneralRequests()
+const pilotsServices = new PilotsRequests()
+const accessServices = new AccessRequests()
 
 const view = ref('SCAN')
 
@@ -79,28 +81,31 @@ function handlerScan(value) {
 
 const search = ref("");
 
-async function searchHandler () {
-  appStore.handleLoading(true)
+async function searchHandler() {
+  appStore.handleLoading(true);
 
-   GeneralServices.pilotCheckIn({ code: search.value })
-    .then((res) => {
-     resultInfo.value = {
-        type: 'SUCCESS',
-        code: search.value,
-        data: res.data
-      }
-    }).catch((err) => {
-      resultInfo.value = {
-        type: 'ERROR',
-        code: search.value,
-        data: err.response.data
-      }
-    }).finally(() => {
-      view.value = 'RESULT'
-      appStore.handleLoading(false)
-      appStore.handleShowScannerIcon(true)
-      scrollTop()
-    })
+  try {
+    let res = accessMode ? 
+      await accessServices.accessCheckIn({ code: search.value }) : 
+      await pilotsServices.pilotCheckIn({ code: search.value })
+
+    resultInfo.value = {
+      type: 'SUCCESS',
+      code: search.value,
+      data: res.data
+    };
+  } catch (err) {
+    resultInfo.value = {
+      type: 'ERROR',
+      code: search.value,
+      data: err.response?.data || 'Unknown error'
+    };
+  } finally {
+    view.value = 'RESULT';
+    appStore.handleLoading(false);
+    appStore.handleShowScannerIcon(true);
+    scrollTop();
+  }
 }
 
 onMounted(() => {

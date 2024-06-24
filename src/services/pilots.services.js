@@ -3,7 +3,7 @@ import { RequestService } from '@/services/request.service'
 
 const requestService = new RequestService()
 
-export class GeneralRequests {
+export class PilotsRequests {
     pilotCheckIn (params) {
       const route = ServerDirections.PILOT_CHECK_IN
       const method = 'post'
