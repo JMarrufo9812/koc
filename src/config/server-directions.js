@@ -6,6 +6,7 @@ export default {
   PILOT_CHECK_IN: `${BASE_URL}/check-in`,
 
   ACCESS_CHECK_IN: `${BASE_URL}/access-check-in`,
+  ACCESS_VISIT_VALIDATE: `${BASE_URL}/visits-validate`,
 
   PILOTS_CHECK_IN_EXPORT: `${BASE_URL}/check-in-export/{DATE_INI}/{DATE_END}`,
   PILOTS: `${BASE_URL}/pilots`,

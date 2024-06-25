@@ -9,13 +9,8 @@
 import { ref, onMounted } from 'vue';
 import Camera from "simple-vue-camera";
 
-// Obtener una referencia del componente
  let camera = ref(null)
-//  onMounted(() => {
-//   camera = ref(null);
-// });
 
-// Usar la referencia de la cámara para llamar a las funciones
 const snapshot = async () => {
   console.log(camera.value)
   const blob = await camera.value?.snapshot();

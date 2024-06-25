@@ -14,4 +14,14 @@ export class AccessRequests {
 
     return requestService.makePromise(route, method, { params }, map)
   }
+  visitsValidate (params) {
+    const route = ServerDirections.ACCESS_VISIT_VALIDATE
+    const method = 'post'
+
+    function map (res) {
+      return res
+    }
+
+    return requestService.makePromise(route, method, { params }, map)
+  }
 }

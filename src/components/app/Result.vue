@@ -2,7 +2,7 @@
   <div class="flex justify-center" :class="backgroundColorStatus">
     <div class="container">
       <div 
-        v-if="info.data.message === 'Piloto no encontrado.'" 
+        v-if="notFound" 
         style="height: 100vh" 
         class="flex justify-center"
       >
@@ -85,8 +85,12 @@
     return props.info.data.data.status
   })
 
+  const notFound = computed(() => {
+    return ['Piloto no encontrado.', 'Acceso no encontrado.'].includes(props.info.data.message)
+  })
+
   const backgroundColorStatus = computed(() => {
-    const status = props.info.data.data.status
+    const status = props.info.data?.data?.status
 
     if (status === 1) {
       return 'back-success'
@@ -97,6 +101,8 @@
     if (status === 3) {
       return 'back-blue'
     }
+    
+    return 'back-error'
   })
 
 

@@ -83,9 +83,9 @@ const search = ref("");
 
 async function searchHandler() {
   appStore.handleLoading(true);
-
+  
   try {
-    let res = accessMode ? 
+    let res = accessMode.value ? 
       await accessServices.accessCheckIn({ code: search.value }) : 
       await pilotsServices.pilotCheckIn({ code: search.value })
 
