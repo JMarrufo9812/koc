@@ -8,7 +8,7 @@
         <FieldText
           v-model="name" 
           class="pt-20" 
-          :label="'Persona que visita'" 
+          :label="'Persona a la que visita'" 
           :classLabel="'text-primary font1-5em text-bold'"
         />
         <FieldText
@@ -25,7 +25,8 @@
         />
       </div>
       <div v-if="step === 2">
-        <FieldText 
+        <FieldText
+          v-model="visitName" 
           class="pt-20" 
           :label="'Nombre completo'" 
           :classLabel="'text-primary font1-5em text-bold'"
@@ -55,7 +56,7 @@
         <Button
           class="pt-20" 
           :text="'Registrar'" 
-          @click="step = 1" 
+          @click="guestCheckIn" 
         />
       </div>
       <div v-if="step === 'CAM_IDE' || step === 'CAM_GUEST'">
@@ -63,14 +64,13 @@
       </div>
     </div>
   </div>
-  <div v-if="step === 'ERROR'">
+  <div v-if="step === 'ERROR' || step === 'SUCCESS'">
     <Result :info="resultInfo" ></Result>
   </div>  
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useAppStore } from '@/store/app'
 
 import FieldText from "@/components/ui/fields/FieldText.vue";
 import Button from "@/components/ui/Button.vue";
@@ -80,8 +80,6 @@ import Result from '@/components/app/Result.vue';
 import { AccessRequests } from "@/services/access.services";
 
 const accessServices = new AccessRequests()
-
-const appStore = useAppStore()
 
 const step = ref(1)
 
@@ -98,6 +96,7 @@ const disabledButtonStepOne = computed(() => {
 async function visitValidate() {
   accessServices.visitsValidate({ name: name.value, code: code.value })
     .then((data) => {
+      resultInfo.value = data
       step.value = 2
     })
     .catch((err) => {
@@ -108,8 +107,6 @@ async function visitValidate() {
       };
 
       step.value = 'ERROR'
-    }).finally(() => {
-      appStore.handleShowScannerIcon(true);
     })
 }
 
@@ -117,6 +114,7 @@ async function visitValidate() {
 // VISITS CHEK IN
 const imageIde = ref('')
 const imagePerson = ref('')
+const visitName = ref('')
 
 function chargeImageHandler (imageData) {
   if (step.value === 'CAM_IDE') {
@@ -127,6 +125,44 @@ function chargeImageHandler (imageData) {
   }
 
   step.value = 2
+}
+
+async function guestCheckIn () {
+  const params = new FormData();
+  
+  params.append("pilot_name", name.value)
+  params.append("pilot_code", code.value)
+  params.append("pilot_status", resultInfo.value.data.data.status)
+  params.append("visits_name", visitName.value)
+  params.append("image_ide", imageIde.value.file)
+  params.append("image_person", imagePerson.value.file)
+
+  console.log(imageIde.value.file)
+  console.log(imagePerson.value.file)
+  // {
+  //   pilot_name: name.value, 
+  //   pilot_code: code.value,
+  //   pilot_status: resultInfo.value.data.data.status,
+  //   visits_name: visitName.value,
+  //   image_ide: imageIde.value.file,
+  //   image_person: imagePerson.value.file
+  // }
+
+  accessServices.visitAccessCheckin(params)
+    .then((data) => {
+      console.log(data)
+      // step.value = 2
+    })
+    .catch((err) => {
+      console.log(err)
+      // resultInfo.value = {
+      //   type: 'ERROR',
+      //   code: code.value,
+      //   data: err.response?.data || 'Unknown error'
+      // };
+
+      // step.value = 'ERROR'
+    })
 }
 
 </script>

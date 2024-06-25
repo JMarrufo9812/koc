@@ -24,4 +24,14 @@ export class AccessRequests {
 
     return requestService.makePromise(route, method, { params }, map)
   }
+  visitAccessCheckin (params) {
+    const route = ServerDirections.ACCESS_VISIT_CHECK_IN
+    const method = 'post'
+
+    function map (res) {
+      return res
+    }
+
+    return requestService.makePromise(route, method, { params }, map)
+  }
 }

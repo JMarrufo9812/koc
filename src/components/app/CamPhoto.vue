@@ -18,7 +18,7 @@ const emit = defineEmits(['charge']);
 const snapshot = async () => {
   const blob = await camera.value?.snapshot();
   const url = URL.createObjectURL(blob);
-  const file = blobToFile(blob)
+  const file = await blobToFile(blob)
 
   emit('charge', { file, url, blob })
 }

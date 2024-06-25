@@ -12,7 +12,10 @@
             <p class="font1-5em text-uppercase text-primary text-bold text-center">
               Control de acceso
             </p>
-            <div @click="$router.push({ name: 'guestRegister' })" class="flex align-center font1-5em text-blue text-bold text-center text-pointer">
+            <div 
+              @click="[$router.push({ name: 'guestRegister' }), appStore.handleShowScannerIcon(true)]" 
+              class="flex align-center font1-5em text-blue text-bold text-center text-pointer"
+            >
               <span class="ion-plus-round" style="font-size: 15px"></span>
               <span class="pl-5">
                 Invitado
