@@ -45,7 +45,7 @@ export function scrollTop() {
 export function blobToFile(blob, fileName, fileType) {
   // El tipo de archivo es opcional. Si no se proporciona, se usa el tipo del blob.
   fileType = fileType || blob.type;
-
+  fileName = fileName || 'image'
   // Crear un nuevo File a partir del Blob
   const file = new File([blob], fileName, {
       type: fileType,

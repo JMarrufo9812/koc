@@ -30,20 +30,26 @@
           :label="'Nombre completo'" 
           :classLabel="'text-primary font1-5em text-bold'"
         />
-        <div class="flex font1-5em">
+        <div class="flex justify-between font1-5em my-20">
           <div>
-            <p>Foto identificación</p>
-            <p @click="step = 'CAM'" class="text-pointer text-blue">
+            <p class="mt-0">Foto identificación</p>
+            <p @click="step = 'CAM_IDE'" class="text-pointer text-blue">
               Cargar foto
             </p>
           </div>
+          <div class="flex" style="width: 30%; max-height: 250px;">
+            <img :src="imageIde.url" style="max-width: 100%; height: 100%;"><img>
+          </div>
         </div>
-        <div class="flex font1-5em">
+        <div class="flex justify-between font1-5em my-20">
           <div>
-            <p>Foto invitado</p>
-            <p @click="step = 'CAM'" class="text-pointer text-blue">
+            <p class="mt-0">Foto invitado</p>
+            <p @click="step = 'CAM_GUEST'" class="text-pointer text-blue">
               Cargar foto
             </p>
+          </div>
+          <div class="flex" style="width: 30%; max-height: 250px;">
+            <img :src="imagePerson.url" style="max-width: 100%; height: 100%;"><img>
           </div>
         </div>
         <Button
@@ -52,8 +58,8 @@
           @click="step = 1" 
         />
       </div>
-      <div v-show="step === 'CAM'">
-        <CamPhoto />
+      <div v-if="step === 'CAM_IDE' || step === 'CAM_GUEST'">
+        <CamPhoto @charge="chargeImageHandler" />
       </div>
     </div>
   </div>
@@ -79,7 +85,7 @@ const appStore = useAppStore()
 
 const step = ref(1)
 
-
+// VISITS VALIDATE
 const name = ref('')
 const code = ref('')
 
@@ -105,6 +111,22 @@ async function visitValidate() {
     }).finally(() => {
       appStore.handleShowScannerIcon(true);
     })
+}
+
+
+// VISITS CHEK IN
+const imageIde = ref('')
+const imagePerson = ref('')
+
+function chargeImageHandler (imageData) {
+  if (step.value === 'CAM_IDE') {
+    imageIde.value = imageData
+  }
+  if (step.value === 'CAM_GUEST') {
+    imagePerson.value = imageData
+  }
+
+  step.value = 2
 }
 
 </script>

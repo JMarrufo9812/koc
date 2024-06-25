@@ -6,19 +6,21 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import Camera from "simple-vue-camera";
+
+import { blobToFile } from '@/utils'
 
  let camera = ref(null)
 
+const emit = defineEmits(['charge']);
+
 const snapshot = async () => {
-  console.log(camera.value)
   const blob = await camera.value?.snapshot();
-  console.log(blob)
-  // // Para mostrar la captura de pantalla con una etiqueta de imagen, crear una URL
   const url = URL.createObjectURL(blob);
-  console.log(url)
-  // console.log(url); // Puedes usar esta URL para mostrar la imagen en un <img> o hacer otra cosa con ella
+  const file = blobToFile(blob)
+
+  emit('charge', { file, url, blob })
 }
 
 </script>
