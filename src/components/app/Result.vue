@@ -1,6 +1,23 @@
 <template>
-  <div class="flex justify-center" :class="backgroundColorStatus">
+  <div class="flex justify-center" :class="backgroundColor">
     <div class="container">
+      <div 
+        v-if="props.info.type === 'REGISTER_GUEST_SUCCESS'" 
+        style="height: 100vh" 
+        class="flex justify-center"
+      >
+        <div style="margin-top: 50%">
+          <p class="text-center font1-5em text-light text-bold">
+            Membresía: {{ info.data.code }}
+          </p>
+          <div class="text-center">
+            <Flag :w="30" :h="30"/>
+          </div>
+          <p class="text-center font1-5em text-light text-bold">
+            INVITADO REGISTRADO
+          </p>
+        </div>
+      </div>
       <div 
         v-if="notFound" 
         style="height: 100vh" 
@@ -19,7 +36,7 @@
             </p>
         </div>
       </div>
-      <div v-else style="height: 100vh">
+      <div v-if="!notFound && props.info.type !== 'REGISTER_GUEST_SUCCESS'" style="height: 100vh">
         <div class="flex justify-between font1-5em text-light pb-5 pt-20">
           <span> Derecho: {{ info.code }} </span>
           <span>{{ info.data.data.place }}</span>
@@ -89,10 +106,11 @@
     return ['Piloto no encontrado.', 'Acceso no encontrado.'].includes(props.info.data.message)
   })
 
-  const backgroundColorStatus = computed(() => {
+  const backgroundColor = computed(() => {
     const status = props.info.data?.data?.status
+    const isRegisterGuestSuccess = props.info.type === 'REGISTER_GUEST_SUCCESS'
 
-    if (status === 1) {
+    if (status === 1 || isRegisterGuestSuccess) {
       return 'back-success'
     }
     if (status === 2) {

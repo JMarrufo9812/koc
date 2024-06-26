@@ -1,5 +1,8 @@
 <template>
-  <div v-if="step !== 'ERROR'" class="flex justify-center">
+  <div v-if="step === 'ERROR' || step === 'SUCCESS'">
+    <Result :info="resultInfo" ></Result>
+  </div>  
+  <div v-else="step !== 'ERROR' || step !== 'SUCCESS'" class="flex justify-center">
     <div class="container">
       <p class="font2em text-uppercase my-20 text-primary text-bold">
         Registro invitado
@@ -10,12 +13,14 @@
           class="pt-20" 
           :label="'Persona a la que visita'" 
           :classLabel="'text-primary font1-5em text-bold'"
+          :cleareble="true"
         />
         <FieldText
           v-model="code"
           class="pt-20" 
           :label="'Membresia'" 
           :classLabel="'text-primary font1-5em text-bold'" 
+          :cleareble="true"
         />
         <Button
           class="pt-20" 
@@ -30,6 +35,7 @@
           class="pt-20" 
           :label="'Nombre completo'" 
           :classLabel="'text-primary font1-5em text-bold'"
+          :cleareble="true"
         />
         <div class="flex justify-between font1-5em my-20">
           <div>
@@ -56,7 +62,8 @@
         <Button
           class="pt-20" 
           :text="'Registrar'" 
-          @click="guestCheckIn" 
+          @click="disabledButtonStepTwo ? '' : guestCheckIn()"
+          :disabled="disabledButtonStepTwo" 
         />
       </div>
       <div v-if="step === 'CAM_IDE' || step === 'CAM_GUEST'">
@@ -64,9 +71,6 @@
       </div>
     </div>
   </div>
-  <div v-if="step === 'ERROR' || step === 'SUCCESS'">
-    <Result :info="resultInfo" ></Result>
-  </div>  
 </template>
 
 <script setup>
@@ -116,6 +120,10 @@ const imageIde = ref('')
 const imagePerson = ref('')
 const visitName = ref('')
 
+const disabledButtonStepTwo = computed(() => {
+  return !(!!imageIde.value && !!imagePerson.value && !!visitName.value)
+})
+
 function chargeImageHandler (imageData) {
   if (step.value === 'CAM_IDE') {
     imageIde.value = imageData
@@ -127,7 +135,7 @@ function chargeImageHandler (imageData) {
   step.value = 2
 }
 
-async function guestCheckIn () {
+function guestCheckIn () {
   const params = new FormData();
   
   params.append("pilot_name", name.value)
@@ -137,32 +145,15 @@ async function guestCheckIn () {
   params.append("image_ide", imageIde.value.file)
   params.append("image_person", imagePerson.value.file)
 
-  console.log(imageIde.value.file)
-  console.log(imagePerson.value.file)
-  // {
-  //   pilot_name: name.value, 
-  //   pilot_code: code.value,
-  //   pilot_status: resultInfo.value.data.data.status,
-  //   visits_name: visitName.value,
-  //   image_ide: imageIde.value.file,
-  //   image_person: imagePerson.value.file
-  // }
-
   accessServices.visitAccessCheckin(params)
-    .then((data) => {
-      console.log(data)
-      // step.value = 2
-    })
-    .catch((err) => {
-      console.log(err)
-      // resultInfo.value = {
-      //   type: 'ERROR',
-      //   code: code.value,
-      //   data: err.response?.data || 'Unknown error'
-      // };
 
-      // step.value = 'ERROR'
-    })
+  resultInfo.value = {
+    type: 'REGISTER_GUEST_SUCCESS',
+    code: null,
+    data: { code: code.value }
+  };
+
+  step.value = 'SUCCESS'
 }
 
 </script>
